@@ -37,6 +37,10 @@ public class BookService {
         return repository.findByName(name);
     }
 
+    public Book findByIsbn(String isbn) {
+        return repository.findByIsbn(isbn);
+    }
+
     public void saveBook(Book book) {
         repository.save(book);
     }

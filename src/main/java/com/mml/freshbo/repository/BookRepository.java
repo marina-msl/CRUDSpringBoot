@@ -9,4 +9,6 @@ import com.mml.freshbo.model.Book;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     Book findByName(String name);
+
+    Book findByIsbn(String isbn);
 }
