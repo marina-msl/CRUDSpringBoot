@@ -47,8 +47,8 @@ public class BookService {
         return repository.findByIsbn(isbn);
     }
 
-    public void saveBook(Book book) {
-        repository.save(book);
+    public Book saveBook(Book book) {
+        return repository.save(book);
     }
 
     public void deleteBook(Long id) {

@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,21 +55,33 @@ public class BookController {
     // }
 
     @PostMapping
-    public void createBook(@RequestBody Book newBook) {
-            service.saveBook(newBook);
+    public ResponseEntity<Object> createBook(@RequestBody Book newBook) {
+            Book createdBook = service.saveBook(newBook);
+
+    return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody Book bookNewInformations){
-        Book book = service.findById(id);
-        book.setName(bookNewInformations.getName());   
-        book.setPublisher(bookNewInformations.getPublisher()); 
-        book.setIsbn(bookNewInformations.getIsbn());
+    public void update(@PathVariable Long id, @RequestBody Book book) {
+        Optional<Book> bookOptional = service.findById(id);
+
+        if (bookOptional.isEmpty()) {
+            throw new NoSuchElementException("Book not found in the database");
+        }
+
+        book.setId(id);
+
         service.saveBook(book);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
+        Optional<Book> book = service.findById(id);
+
+        if (book.isEmpty()) {
+            throw new NoSuchElementException("Book not found in the database");
+        }
+
         service.deleteBook(id);
     }
 }
