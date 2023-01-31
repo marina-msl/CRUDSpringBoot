@@ -19,18 +19,24 @@ public class BookService {
         return repository.findAll();
     }
 
-    public Book findById(Long id) {
+    // public Book findById(Long id) {
 
-        Optional<Book> bookOptional = repository.findById(id);
+    //     Optional<Book> bookOptional = repository.findById(id);
 
-        Book book = null;
+    //     Book book = null;
 
-        if(bookOptional.isPresent()) {
-            book = bookOptional.get();
-        } else {
-            book = new Book();
-        }   
-        return book;
+    //     if(bookOptional.isPresent()) {
+    //         book = bookOptional.get();
+    //     } else {
+    //         book = new Book();
+    //     }   
+    //     return book;
+    // }
+
+    
+    public Optional<Book> findById(Long id) {
+        return repository.findById(id);
+
     }
 
     public Book findByName(String name) {

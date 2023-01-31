@@ -1,6 +1,8 @@
 package com.mml.freshbo.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,10 +29,15 @@ public class BookController {
         return service.findAll();
     }
 
-    @GetMapping("/{id}") 
+    @GetMapping("/{id}")
     public Book getBookById(@PathVariable Long id) {
-        Book book = service.findById(id);
-        return  book;
+        Optional<Book> book = service.findById(id);
+
+        if (book.isEmpty()) {
+            throw new NoSuchElementException("Book not found in the database");
+        }
+
+        return book.get();
     }
 
     // @GetMapping("/{name}") 
